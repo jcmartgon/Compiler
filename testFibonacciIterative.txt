@@ -1,0 +1,28 @@
+Program FaibonacciIterative;
+vars
+	num: int;
+
+int func fibo(val: int);
+vars
+	a, b, c, i: int;
+	{ 
+		a = 0;
+		b = 1;
+		if (val == 0) then
+		{
+			return (a);
+		};
+		from i = 2 to val do
+		{
+			c = a + b;
+			a = b;
+			b = c;
+		};
+		return (b);
+	}
+
+main()
+{ 
+	num = 9;
+	print(fibo(num));
+}

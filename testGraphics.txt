@@ -1,0 +1,32 @@
+Program Person;
+
+main()
+{
+	penup();
+	left(90);
+	line(50);
+	pendown();
+	left(140);
+	line(50);
+	left(180);
+	penup();
+	line(50);
+	right(100);
+	pendown();
+	line(50);
+	right(180);
+	penup();
+	line(50);
+	right(45);
+	pendown();
+	line(50);
+	left(90);
+	line(30);
+	left(180);
+	line(60);
+	left(180);
+	line(30);
+	right(90);
+	line(20);
+	circle(10);
+}

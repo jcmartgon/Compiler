@@ -1,0 +1,21 @@
+Program FactorialRecursive;
+vars
+	a: int;
+
+int func fact(val: int);
+	{ 
+		if ( val == 0) then
+		{
+			return (1);
+		}
+		else
+		{
+			return (fact(val - 1) * val);
+		};
+	}
+
+main()
+{ 
+	a = 5;
+	print(fact(a));
+}

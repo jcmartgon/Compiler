@@ -1,0 +1,21 @@
+Program FactorialIterative;
+vars
+	num: int;
+
+int func fact(val: int);
+vars
+	res, i: int;
+	{ 
+		res = 1;
+		from i = 2 to val do
+		{
+			res = res * i;
+		};
+		return (res);
+	}
+
+main()
+{ 
+	num = fact(5);
+	print(num);
+}

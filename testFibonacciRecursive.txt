@@ -1,0 +1,21 @@
+Program FibonacciRecursive;
+vars
+	a: int;
+
+int func fibo(val: int);
+	{ 
+		if ( val <= 1) then
+		{
+			return (val);
+		}
+		else
+		{
+			return ((fibo(val - 1)) + (fibo(val - 2)));
+		};
+	}
+
+main()
+{ 
+	a = 9;
+	print(fibo(a));
+}

@@ -1,0 +1,4408 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> program_decl vars_decl_space funcs_decl_space main
+Rule 2     program_decl -> PROGRAM ID SEMICOLON
+Rule 3     vars_decl_space -> VARS vars_decl vars_decl_list
+Rule 4     vars_decl_space -> empty
+Rule 5     vars_decl -> var_decl vars_list COLON type SEMICOLON
+Rule 6     var_decl -> ID var_dim
+Rule 7     var_dim -> L_SBRACKET CT_INT R_SBRACKET
+Rule 8     var_dim -> empty
+Rule 9     vars_list -> COMMA var_decl vars_list
+Rule 10    vars_list -> empty
+Rule 11    type -> INT
+Rule 12    type -> FLOAT
+Rule 13    type -> CHAR
+Rule 14    vars_decl_list -> vars_decl vars_decl_list
+Rule 15    vars_decl_list -> empty
+Rule 16    funcs_decl_space -> func_decl funcs_decl_space
+Rule 17    funcs_decl_space -> empty
+Rule 18    func_decl -> func_header vars_decl_space func_body
+Rule 19    func_header -> func_init L_PAREN params_decl R_PAREN SEMICOLON
+Rule 20    func_init -> ret_type FUNC ID
+Rule 21    ret_type -> type
+Rule 22    ret_type -> VOID
+Rule 23    params_decl -> param_decl
+Rule 24    params_decl -> empty
+Rule 25    param_decl -> param params_list
+Rule 26    param -> ID COLON type
+Rule 27    params_list -> COMMA param_decl
+Rule 28    params_list -> empty
+Rule 29    func_body -> L_BRACKET stmnt R_BRACKET
+Rule 30    stmnt -> return SEMICOLON
+Rule 31    stmnt -> assignment SEMICOLON stmnt
+Rule 32    stmnt -> print SEMICOLON stmnt
+Rule 33    stmnt -> decision SEMICOLON stmnt
+Rule 34    stmnt -> loop SEMICOLON stmnt
+Rule 35    stmnt -> call SEMICOLON stmnt
+Rule 36    stmnt -> graphics SEMICOLON stmnt
+Rule 37    stmnt -> empty
+Rule 38    assignment -> assignee ASSIGN hyper_exp
+Rule 39    assignee -> ID atom_id var_dim
+Rule 40    hyper_exp -> super_exp logic exp_over
+Rule 41    super_exp -> exp relation
+Rule 42    exp -> term add_sub
+Rule 43    term -> factor times_divide
+Rule 44    factor -> false_buttom hyper_exp pop_false_buttom
+Rule 45    factor -> atom
+Rule 46    false_buttom -> L_PAREN
+Rule 47    pop_false_buttom -> R_PAREN
+Rule 48    exp_over -> <empty>
+Rule 49    atom -> ID atom_id
+Rule 50    atom -> CT_INT atom_ct_int
+Rule 51    atom -> CT_FLOAT atom_ct_float
+Rule 52    atom -> CT_CHAR atom_ct_char
+Rule 53    atom -> call
+Rule 54    atom_id -> <empty>
+Rule 55    atom_ct_int -> <empty>
+Rule 56    atom_ct_float -> <empty>
+Rule 57    atom_ct_char -> <empty>
+Rule 58    times_divide -> times_divide_op term
+Rule 59    times_divide -> empty
+Rule 60    times_divide_op -> TIMES
+Rule 61    times_divide_op -> DIVIDE
+Rule 62    add_sub -> add_sub_op exp
+Rule 63    add_sub -> empty
+Rule 64    add_sub_op -> ADD
+Rule 65    add_sub_op -> SUB
+Rule 66    relation -> rel_op exp
+Rule 67    relation -> empty
+Rule 68    rel_op -> GTE
+Rule 69    rel_op -> LTE
+Rule 70    rel_op -> GT
+Rule 71    rel_op -> LT
+Rule 72    rel_op -> NE
+Rule 73    rel_op -> EQ
+Rule 74    logic -> log_op super_exp
+Rule 75    logic -> empty
+Rule 76    log_op -> AND
+Rule 77    log_op -> OR
+Rule 78    call -> call_starts L_PAREN args R_PAREN
+Rule 79    call_starts -> ID
+Rule 80    args -> arg
+Rule 81    args -> empty
+Rule 82    arg -> hyper_exp param_quad arg_list
+Rule 83    param_quad -> <empty>
+Rule 84    arg_list -> COMMA arg
+Rule 85    arg_list -> empty
+Rule 86    return -> RETURN L_PAREN hyper_exp R_PAREN
+Rule 87    print -> PRINT L_PAREN to_print R_PAREN
+Rule 88    to_print -> hyper_exp print_exp printing_list
+Rule 89    to_print -> CT_STRING print_str printing_list
+Rule 90    print_exp -> <empty>
+Rule 91    print_str -> <empty>
+Rule 92    printing_list -> COMMA to_print
+Rule 93    printing_list -> empty
+Rule 94    decision -> IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+Rule 95    cond -> <empty>
+Rule 96    else_block -> ELSE else_starts L_BRACKET stmnt R_BRACKET
+Rule 97    else_block -> empty
+Rule 98    else_starts -> <empty>
+Rule 99    if_over -> <empty>
+Rule 100   loop -> conditional
+Rule 101   loop -> non_conditional
+Rule 102   conditional -> WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+Rule 103   while_starts -> <empty>
+Rule 104   while_do_over -> <empty>
+Rule 105   non_conditional -> FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+Rule 106   from_to_assignment -> assignee ASSIGN hyper_exp
+Rule 107   from_to_limit -> hyper_exp
+Rule 108   from_to_cond -> <empty>
+Rule 109   from_to_over -> <empty>
+Rule 110   graphics -> line
+Rule 111   graphics -> dot
+Rule 112   graphics -> circle
+Rule 113   graphics -> arc
+Rule 114   graphics -> penup
+Rule 115   graphics -> pendown
+Rule 116   graphics -> color
+Rule 117   graphics -> size
+Rule 118   graphics -> reset
+Rule 119   graphics -> left
+Rule 120   graphics -> right
+Rule 121   line -> LINE L_PAREN exp R_PAREN
+Rule 122   dot -> DOT L_PAREN exp R_PAREN
+Rule 123   circle -> CIRCLE L_PAREN exp R_PAREN
+Rule 124   arc -> ARC L_PAREN exp R_PAREN
+Rule 125   penup -> PENUP L_PAREN R_PAREN
+Rule 126   pendown -> PENDOWN L_PAREN R_PAREN
+Rule 127   color -> COLOR L_PAREN CT_STRING R_PAREN
+Rule 128   size -> SIZE L_PAREN exp R_PAREN
+Rule 129   reset -> RESET L_PAREN R_PAREN
+Rule 130   left -> LEFT L_PAREN exp R_PAREN
+Rule 131   right -> RIGHT L_PAREN exp R_PAREN
+Rule 132   main -> main_init func_body
+Rule 133   main_init -> MAIN L_PAREN R_PAREN
+Rule 134   empty -> <empty>
+
+Terminals, with rules where they appear
+
+ADD                  : 64
+AND                  : 76
+ARC                  : 124
+ASSIGN               : 38 106
+CHAR                 : 13
+CIRCLE               : 123
+COLON                : 5 26
+COLOR                : 127
+COMMA                : 9 27 84 92
+CT_CHAR              : 52
+CT_FLOAT             : 51
+CT_INT               : 7 50
+CT_STRING            : 89 127
+DIVIDE               : 61
+DO                   : 102 105
+DOT                  : 122
+ELSE                 : 96
+EQ                   : 73
+FLOAT                : 12
+FROM                 : 105
+FUNC                 : 20
+GT                   : 70
+GTE                  : 68
+ID                   : 2 6 20 26 39 49 79
+IF                   : 94
+INT                  : 11
+LEFT                 : 130
+LINE                 : 121
+LT                   : 71
+LTE                  : 69
+L_BRACKET            : 29 94 96 102 105
+L_PAREN              : 19 46 78 86 87 94 102 121 122 123 124 125 126 127 128 129 130 131 133
+L_SBRACKET           : 7
+MAIN                 : 133
+NE                   : 72
+OR                   : 77
+PENDOWN              : 126
+PENUP                : 125
+PRINT                : 87
+PROGRAM              : 2
+RESET                : 129
+RETURN               : 86
+RIGHT                : 131
+R_BRACKET            : 29 94 96 102 105
+R_PAREN              : 19 47 78 86 87 94 102 121 122 123 124 125 126 127 128 129 130 131 133
+R_SBRACKET           : 7
+SEMICOLON            : 2 5 19 30 31 32 33 34 35 36
+SIZE                 : 128
+SUB                  : 65
+THEN                 : 94
+TIMES                : 60
+TO                   : 105
+VARS                 : 3
+VOID                 : 22
+WHILE                : 102
+error                : 
+
+Nonterminals, with rules where they appear
+
+add_sub              : 42
+add_sub_op           : 62
+arc                  : 113
+arg                  : 80 84
+arg_list             : 82
+args                 : 78
+assignee             : 38 106
+assignment           : 31
+atom                 : 45
+atom_ct_char         : 52
+atom_ct_float        : 51
+atom_ct_int          : 50
+atom_id              : 39 49
+call                 : 35 53
+call_starts          : 78
+circle               : 112
+color                : 116
+cond                 : 94 102
+conditional          : 100
+decision             : 33
+dot                  : 111
+else_block           : 94
+else_starts          : 96
+empty                : 4 8 10 15 17 24 28 37 59 63 67 75 81 85 93 97
+exp                  : 41 62 66 121 122 123 124 128 130 131
+exp_over             : 40
+factor               : 43
+false_buttom         : 44
+from_to_assignment   : 105
+from_to_cond         : 105
+from_to_limit        : 105
+from_to_over         : 105
+func_body            : 18 132
+func_decl            : 16
+func_header          : 18
+func_init            : 19
+funcs_decl_space     : 1 16
+graphics             : 36
+hyper_exp            : 38 44 82 86 88 94 102 106 107
+if_over              : 94
+left                 : 119
+line                 : 110
+log_op               : 74
+logic                : 40
+loop                 : 34
+main                 : 1
+main_init            : 132
+non_conditional      : 101
+param                : 25
+param_decl           : 23 27
+param_quad           : 82
+params_decl          : 19
+params_list          : 25
+pendown              : 115
+penup                : 114
+pop_false_buttom     : 44
+print                : 32
+print_exp            : 88
+print_str            : 89
+printing_list        : 88 89
+program              : 0
+program_decl         : 1
+rel_op               : 66
+relation             : 41
+reset                : 118
+ret_type             : 20
+return               : 30
+right                : 120
+size                 : 117
+stmnt                : 29 31 32 33 34 35 36 94 96 102 105
+super_exp            : 40 74
+term                 : 42 58
+times_divide         : 43
+times_divide_op      : 58
+to_print             : 87 92
+type                 : 5 21 26
+var_decl             : 5 9
+var_dim              : 6 39
+vars_decl            : 3 14
+vars_decl_list       : 3 14
+vars_decl_space      : 1 18
+vars_list            : 5 9
+while_do_over        : 102
+while_starts         : 102
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . program_decl vars_decl_space funcs_decl_space main
+    (2) program_decl -> . PROGRAM ID SEMICOLON
+
+    PROGRAM         shift and go to state 3
+
+    program                        shift and go to state 1
+    program_decl                   shift and go to state 2
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> program_decl . vars_decl_space funcs_decl_space main
+    (3) vars_decl_space -> . VARS vars_decl vars_decl_list
+    (4) vars_decl_space -> . empty
+    (134) empty -> .
+
+    VARS            shift and go to state 5
+    VOID            reduce using rule 134 (empty -> .)
+    INT             reduce using rule 134 (empty -> .)
+    FLOAT           reduce using rule 134 (empty -> .)
+    CHAR            reduce using rule 134 (empty -> .)
+    MAIN            reduce using rule 134 (empty -> .)
+
+    vars_decl_space                shift and go to state 4
+    empty                          shift and go to state 6
+
+state 3
+
+    (2) program_decl -> PROGRAM . ID SEMICOLON
+
+    ID              shift and go to state 7
+
+
+state 4
+
+    (1) program -> program_decl vars_decl_space . funcs_decl_space main
+    (16) funcs_decl_space -> . func_decl funcs_decl_space
+    (17) funcs_decl_space -> . empty
+    (18) func_decl -> . func_header vars_decl_space func_body
+    (134) empty -> .
+    (19) func_header -> . func_init L_PAREN params_decl R_PAREN SEMICOLON
+    (20) func_init -> . ret_type FUNC ID
+    (21) ret_type -> . type
+    (22) ret_type -> . VOID
+    (11) type -> . INT
+    (12) type -> . FLOAT
+    (13) type -> . CHAR
+
+    MAIN            reduce using rule 134 (empty -> .)
+    VOID            shift and go to state 15
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+
+    funcs_decl_space               shift and go to state 8
+    func_decl                      shift and go to state 9
+    empty                          shift and go to state 10
+    func_header                    shift and go to state 11
+    func_init                      shift and go to state 12
+    ret_type                       shift and go to state 13
+    type                           shift and go to state 14
+
+state 5
+
+    (3) vars_decl_space -> VARS . vars_decl vars_decl_list
+    (5) vars_decl -> . var_decl vars_list COLON type SEMICOLON
+    (6) var_decl -> . ID var_dim
+
+    ID              shift and go to state 21
+
+    vars_decl                      shift and go to state 19
+    var_decl                       shift and go to state 20
+
+state 6
+
+    (4) vars_decl_space -> empty .
+
+    VOID            reduce using rule 4 (vars_decl_space -> empty .)
+    INT             reduce using rule 4 (vars_decl_space -> empty .)
+    FLOAT           reduce using rule 4 (vars_decl_space -> empty .)
+    CHAR            reduce using rule 4 (vars_decl_space -> empty .)
+    MAIN            reduce using rule 4 (vars_decl_space -> empty .)
+    L_BRACKET       reduce using rule 4 (vars_decl_space -> empty .)
+
+
+state 7
+
+    (2) program_decl -> PROGRAM ID . SEMICOLON
+
+    SEMICOLON       shift and go to state 22
+
+
+state 8
+
+    (1) program -> program_decl vars_decl_space funcs_decl_space . main
+    (132) main -> . main_init func_body
+    (133) main_init -> . MAIN L_PAREN R_PAREN
+
+    MAIN            shift and go to state 25
+
+    main                           shift and go to state 23
+    main_init                      shift and go to state 24
+
+state 9
+
+    (16) funcs_decl_space -> func_decl . funcs_decl_space
+    (16) funcs_decl_space -> . func_decl funcs_decl_space
+    (17) funcs_decl_space -> . empty
+    (18) func_decl -> . func_header vars_decl_space func_body
+    (134) empty -> .
+    (19) func_header -> . func_init L_PAREN params_decl R_PAREN SEMICOLON
+    (20) func_init -> . ret_type FUNC ID
+    (21) ret_type -> . type
+    (22) ret_type -> . VOID
+    (11) type -> . INT
+    (12) type -> . FLOAT
+    (13) type -> . CHAR
+
+    MAIN            reduce using rule 134 (empty -> .)
+    VOID            shift and go to state 15
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+
+    func_decl                      shift and go to state 9
+    funcs_decl_space               shift and go to state 26
+    empty                          shift and go to state 10
+    func_header                    shift and go to state 11
+    func_init                      shift and go to state 12
+    ret_type                       shift and go to state 13
+    type                           shift and go to state 14
+
+state 10
+
+    (17) funcs_decl_space -> empty .
+
+    MAIN            reduce using rule 17 (funcs_decl_space -> empty .)
+
+
+state 11
+
+    (18) func_decl -> func_header . vars_decl_space func_body
+    (3) vars_decl_space -> . VARS vars_decl vars_decl_list
+    (4) vars_decl_space -> . empty
+    (134) empty -> .
+
+    VARS            shift and go to state 5
+    L_BRACKET       reduce using rule 134 (empty -> .)
+
+    vars_decl_space                shift and go to state 27
+    empty                          shift and go to state 6
+
+state 12
+
+    (19) func_header -> func_init . L_PAREN params_decl R_PAREN SEMICOLON
+
+    L_PAREN         shift and go to state 28
+
+
+state 13
+
+    (20) func_init -> ret_type . FUNC ID
+
+    FUNC            shift and go to state 29
+
+
+state 14
+
+    (21) ret_type -> type .
+
+    FUNC            reduce using rule 21 (ret_type -> type .)
+
+
+state 15
+
+    (22) ret_type -> VOID .
+
+    FUNC            reduce using rule 22 (ret_type -> VOID .)
+
+
+state 16
+
+    (11) type -> INT .
+
+    FUNC            reduce using rule 11 (type -> INT .)
+    SEMICOLON       reduce using rule 11 (type -> INT .)
+    COMMA           reduce using rule 11 (type -> INT .)
+    R_PAREN         reduce using rule 11 (type -> INT .)
+
+
+state 17
+
+    (12) type -> FLOAT .
+
+    FUNC            reduce using rule 12 (type -> FLOAT .)
+    SEMICOLON       reduce using rule 12 (type -> FLOAT .)
+    COMMA           reduce using rule 12 (type -> FLOAT .)
+    R_PAREN         reduce using rule 12 (type -> FLOAT .)
+
+
+state 18
+
+    (13) type -> CHAR .
+
+    FUNC            reduce using rule 13 (type -> CHAR .)
+    SEMICOLON       reduce using rule 13 (type -> CHAR .)
+    COMMA           reduce using rule 13 (type -> CHAR .)
+    R_PAREN         reduce using rule 13 (type -> CHAR .)
+
+
+state 19
+
+    (3) vars_decl_space -> VARS vars_decl . vars_decl_list
+    (14) vars_decl_list -> . vars_decl vars_decl_list
+    (15) vars_decl_list -> . empty
+    (5) vars_decl -> . var_decl vars_list COLON type SEMICOLON
+    (134) empty -> .
+    (6) var_decl -> . ID var_dim
+
+    VOID            reduce using rule 134 (empty -> .)
+    INT             reduce using rule 134 (empty -> .)
+    FLOAT           reduce using rule 134 (empty -> .)
+    CHAR            reduce using rule 134 (empty -> .)
+    MAIN            reduce using rule 134 (empty -> .)
+    L_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 21
+
+    vars_decl                      shift and go to state 30
+    vars_decl_list                 shift and go to state 31
+    empty                          shift and go to state 32
+    var_decl                       shift and go to state 20
+
+state 20
+
+    (5) vars_decl -> var_decl . vars_list COLON type SEMICOLON
+    (9) vars_list -> . COMMA var_decl vars_list
+    (10) vars_list -> . empty
+    (134) empty -> .
+
+    COMMA           shift and go to state 34
+    COLON           reduce using rule 134 (empty -> .)
+
+    vars_list                      shift and go to state 33
+    empty                          shift and go to state 35
+
+state 21
+
+    (6) var_decl -> ID . var_dim
+    (7) var_dim -> . L_SBRACKET CT_INT R_SBRACKET
+    (8) var_dim -> . empty
+    (134) empty -> .
+
+    L_SBRACKET      shift and go to state 37
+    COMMA           reduce using rule 134 (empty -> .)
+    COLON           reduce using rule 134 (empty -> .)
+
+    var_dim                        shift and go to state 36
+    empty                          shift and go to state 38
+
+state 22
+
+    (2) program_decl -> PROGRAM ID SEMICOLON .
+
+    VARS            reduce using rule 2 (program_decl -> PROGRAM ID SEMICOLON .)
+    VOID            reduce using rule 2 (program_decl -> PROGRAM ID SEMICOLON .)
+    INT             reduce using rule 2 (program_decl -> PROGRAM ID SEMICOLON .)
+    FLOAT           reduce using rule 2 (program_decl -> PROGRAM ID SEMICOLON .)
+    CHAR            reduce using rule 2 (program_decl -> PROGRAM ID SEMICOLON .)
+    MAIN            reduce using rule 2 (program_decl -> PROGRAM ID SEMICOLON .)
+
+
+state 23
+
+    (1) program -> program_decl vars_decl_space funcs_decl_space main .
+
+    $end            reduce using rule 1 (program -> program_decl vars_decl_space funcs_decl_space main .)
+
+
+state 24
+
+    (132) main -> main_init . func_body
+    (29) func_body -> . L_BRACKET stmnt R_BRACKET
+
+    L_BRACKET       shift and go to state 40
+
+    func_body                      shift and go to state 39
+
+state 25
+
+    (133) main_init -> MAIN . L_PAREN R_PAREN
+
+    L_PAREN         shift and go to state 41
+
+
+state 26
+
+    (16) funcs_decl_space -> func_decl funcs_decl_space .
+
+    MAIN            reduce using rule 16 (funcs_decl_space -> func_decl funcs_decl_space .)
+
+
+state 27
+
+    (18) func_decl -> func_header vars_decl_space . func_body
+    (29) func_body -> . L_BRACKET stmnt R_BRACKET
+
+    L_BRACKET       shift and go to state 40
+
+    func_body                      shift and go to state 42
+
+state 28
+
+    (19) func_header -> func_init L_PAREN . params_decl R_PAREN SEMICOLON
+    (23) params_decl -> . param_decl
+    (24) params_decl -> . empty
+    (25) param_decl -> . param params_list
+    (134) empty -> .
+    (26) param -> . ID COLON type
+
+    R_PAREN         reduce using rule 134 (empty -> .)
+    ID              shift and go to state 47
+
+    params_decl                    shift and go to state 43
+    param_decl                     shift and go to state 44
+    empty                          shift and go to state 45
+    param                          shift and go to state 46
+
+state 29
+
+    (20) func_init -> ret_type FUNC . ID
+
+    ID              shift and go to state 48
+
+
+state 30
+
+    (14) vars_decl_list -> vars_decl . vars_decl_list
+    (14) vars_decl_list -> . vars_decl vars_decl_list
+    (15) vars_decl_list -> . empty
+    (5) vars_decl -> . var_decl vars_list COLON type SEMICOLON
+    (134) empty -> .
+    (6) var_decl -> . ID var_dim
+
+    VOID            reduce using rule 134 (empty -> .)
+    INT             reduce using rule 134 (empty -> .)
+    FLOAT           reduce using rule 134 (empty -> .)
+    CHAR            reduce using rule 134 (empty -> .)
+    MAIN            reduce using rule 134 (empty -> .)
+    L_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 21
+
+    vars_decl                      shift and go to state 30
+    vars_decl_list                 shift and go to state 49
+    empty                          shift and go to state 32
+    var_decl                       shift and go to state 20
+
+state 31
+
+    (3) vars_decl_space -> VARS vars_decl vars_decl_list .
+
+    VOID            reduce using rule 3 (vars_decl_space -> VARS vars_decl vars_decl_list .)
+    INT             reduce using rule 3 (vars_decl_space -> VARS vars_decl vars_decl_list .)
+    FLOAT           reduce using rule 3 (vars_decl_space -> VARS vars_decl vars_decl_list .)
+    CHAR            reduce using rule 3 (vars_decl_space -> VARS vars_decl vars_decl_list .)
+    MAIN            reduce using rule 3 (vars_decl_space -> VARS vars_decl vars_decl_list .)
+    L_BRACKET       reduce using rule 3 (vars_decl_space -> VARS vars_decl vars_decl_list .)
+
+
+state 32
+
+    (15) vars_decl_list -> empty .
+
+    VOID            reduce using rule 15 (vars_decl_list -> empty .)
+    INT             reduce using rule 15 (vars_decl_list -> empty .)
+    FLOAT           reduce using rule 15 (vars_decl_list -> empty .)
+    CHAR            reduce using rule 15 (vars_decl_list -> empty .)
+    MAIN            reduce using rule 15 (vars_decl_list -> empty .)
+    L_BRACKET       reduce using rule 15 (vars_decl_list -> empty .)
+
+
+state 33
+
+    (5) vars_decl -> var_decl vars_list . COLON type SEMICOLON
+
+    COLON           shift and go to state 50
+
+
+state 34
+
+    (9) vars_list -> COMMA . var_decl vars_list
+    (6) var_decl -> . ID var_dim
+
+    ID              shift and go to state 21
+
+    var_decl                       shift and go to state 51
+
+state 35
+
+    (10) vars_list -> empty .
+
+    COLON           reduce using rule 10 (vars_list -> empty .)
+
+
+state 36
+
+    (6) var_decl -> ID var_dim .
+
+    COMMA           reduce using rule 6 (var_decl -> ID var_dim .)
+    COLON           reduce using rule 6 (var_decl -> ID var_dim .)
+
+
+state 37
+
+    (7) var_dim -> L_SBRACKET . CT_INT R_SBRACKET
+
+    CT_INT          shift and go to state 52
+
+
+state 38
+
+    (8) var_dim -> empty .
+
+    COMMA           reduce using rule 8 (var_dim -> empty .)
+    COLON           reduce using rule 8 (var_dim -> empty .)
+    ASSIGN          reduce using rule 8 (var_dim -> empty .)
+
+
+state 39
+
+    (132) main -> main_init func_body .
+
+    $end            reduce using rule 132 (main -> main_init func_body .)
+
+
+state 40
+
+    (29) func_body -> L_BRACKET . stmnt R_BRACKET
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    stmnt                          shift and go to state 53
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    print                          shift and go to state 56
+    decision                       shift and go to state 57
+    loop                           shift and go to state 58
+    call                           shift and go to state 59
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 41
+
+    (133) main_init -> MAIN L_PAREN . R_PAREN
+
+    R_PAREN         shift and go to state 94
+
+
+state 42
+
+    (18) func_decl -> func_header vars_decl_space func_body .
+
+    VOID            reduce using rule 18 (func_decl -> func_header vars_decl_space func_body .)
+    INT             reduce using rule 18 (func_decl -> func_header vars_decl_space func_body .)
+    FLOAT           reduce using rule 18 (func_decl -> func_header vars_decl_space func_body .)
+    CHAR            reduce using rule 18 (func_decl -> func_header vars_decl_space func_body .)
+    MAIN            reduce using rule 18 (func_decl -> func_header vars_decl_space func_body .)
+
+
+state 43
+
+    (19) func_header -> func_init L_PAREN params_decl . R_PAREN SEMICOLON
+
+    R_PAREN         shift and go to state 95
+
+
+state 44
+
+    (23) params_decl -> param_decl .
+
+    R_PAREN         reduce using rule 23 (params_decl -> param_decl .)
+
+
+state 45
+
+    (24) params_decl -> empty .
+
+    R_PAREN         reduce using rule 24 (params_decl -> empty .)
+
+
+state 46
+
+    (25) param_decl -> param . params_list
+    (27) params_list -> . COMMA param_decl
+    (28) params_list -> . empty
+    (134) empty -> .
+
+    COMMA           shift and go to state 97
+    R_PAREN         reduce using rule 134 (empty -> .)
+
+    params_list                    shift and go to state 96
+    empty                          shift and go to state 98
+
+state 47
+
+    (26) param -> ID . COLON type
+
+    COLON           shift and go to state 99
+
+
+state 48
+
+    (20) func_init -> ret_type FUNC ID .
+
+    L_PAREN         reduce using rule 20 (func_init -> ret_type FUNC ID .)
+
+
+state 49
+
+    (14) vars_decl_list -> vars_decl vars_decl_list .
+
+    VOID            reduce using rule 14 (vars_decl_list -> vars_decl vars_decl_list .)
+    INT             reduce using rule 14 (vars_decl_list -> vars_decl vars_decl_list .)
+    FLOAT           reduce using rule 14 (vars_decl_list -> vars_decl vars_decl_list .)
+    CHAR            reduce using rule 14 (vars_decl_list -> vars_decl vars_decl_list .)
+    MAIN            reduce using rule 14 (vars_decl_list -> vars_decl vars_decl_list .)
+    L_BRACKET       reduce using rule 14 (vars_decl_list -> vars_decl vars_decl_list .)
+
+
+state 50
+
+    (5) vars_decl -> var_decl vars_list COLON . type SEMICOLON
+    (11) type -> . INT
+    (12) type -> . FLOAT
+    (13) type -> . CHAR
+
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+
+    type                           shift and go to state 100
+
+state 51
+
+    (9) vars_list -> COMMA var_decl . vars_list
+    (9) vars_list -> . COMMA var_decl vars_list
+    (10) vars_list -> . empty
+    (134) empty -> .
+
+    COMMA           shift and go to state 34
+    COLON           reduce using rule 134 (empty -> .)
+
+    vars_list                      shift and go to state 101
+    empty                          shift and go to state 35
+
+state 52
+
+    (7) var_dim -> L_SBRACKET CT_INT . R_SBRACKET
+
+    R_SBRACKET      shift and go to state 102
+
+
+state 53
+
+    (29) func_body -> L_BRACKET stmnt . R_BRACKET
+
+    R_BRACKET       shift and go to state 103
+
+
+state 54
+
+    (30) stmnt -> return . SEMICOLON
+
+    SEMICOLON       shift and go to state 104
+
+
+state 55
+
+    (31) stmnt -> assignment . SEMICOLON stmnt
+
+    SEMICOLON       shift and go to state 105
+
+
+state 56
+
+    (32) stmnt -> print . SEMICOLON stmnt
+
+    SEMICOLON       shift and go to state 106
+
+
+state 57
+
+    (33) stmnt -> decision . SEMICOLON stmnt
+
+    SEMICOLON       shift and go to state 107
+
+
+state 58
+
+    (34) stmnt -> loop . SEMICOLON stmnt
+
+    SEMICOLON       shift and go to state 108
+
+
+state 59
+
+    (35) stmnt -> call . SEMICOLON stmnt
+
+    SEMICOLON       shift and go to state 109
+
+
+state 60
+
+    (36) stmnt -> graphics . SEMICOLON stmnt
+
+    SEMICOLON       shift and go to state 110
+
+
+state 61
+
+    (37) stmnt -> empty .
+
+    R_BRACKET       reduce using rule 37 (stmnt -> empty .)
+
+
+state 62
+
+    (86) return -> RETURN . L_PAREN hyper_exp R_PAREN
+
+    L_PAREN         shift and go to state 111
+
+
+state 63
+
+    (38) assignment -> assignee . ASSIGN hyper_exp
+
+    ASSIGN          shift and go to state 112
+
+
+state 64
+
+    (87) print -> PRINT . L_PAREN to_print R_PAREN
+
+    L_PAREN         shift and go to state 113
+
+
+state 65
+
+    (94) decision -> IF . L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+
+    L_PAREN         shift and go to state 114
+
+
+state 66
+
+    (100) loop -> conditional .
+
+    SEMICOLON       reduce using rule 100 (loop -> conditional .)
+
+
+state 67
+
+    (101) loop -> non_conditional .
+
+    SEMICOLON       reduce using rule 101 (loop -> non_conditional .)
+
+
+state 68
+
+    (78) call -> call_starts . L_PAREN args R_PAREN
+
+    L_PAREN         shift and go to state 115
+
+
+state 69
+
+    (110) graphics -> line .
+
+    SEMICOLON       reduce using rule 110 (graphics -> line .)
+
+
+state 70
+
+    (111) graphics -> dot .
+
+    SEMICOLON       reduce using rule 111 (graphics -> dot .)
+
+
+state 71
+
+    (112) graphics -> circle .
+
+    SEMICOLON       reduce using rule 112 (graphics -> circle .)
+
+
+state 72
+
+    (113) graphics -> arc .
+
+    SEMICOLON       reduce using rule 113 (graphics -> arc .)
+
+
+state 73
+
+    (114) graphics -> penup .
+
+    SEMICOLON       reduce using rule 114 (graphics -> penup .)
+
+
+state 74
+
+    (115) graphics -> pendown .
+
+    SEMICOLON       reduce using rule 115 (graphics -> pendown .)
+
+
+state 75
+
+    (116) graphics -> color .
+
+    SEMICOLON       reduce using rule 116 (graphics -> color .)
+
+
+state 76
+
+    (117) graphics -> size .
+
+    SEMICOLON       reduce using rule 117 (graphics -> size .)
+
+
+state 77
+
+    (118) graphics -> reset .
+
+    SEMICOLON       reduce using rule 118 (graphics -> reset .)
+
+
+state 78
+
+    (119) graphics -> left .
+
+    SEMICOLON       reduce using rule 119 (graphics -> left .)
+
+
+state 79
+
+    (120) graphics -> right .
+
+    SEMICOLON       reduce using rule 120 (graphics -> right .)
+
+
+state 80
+
+    (39) assignee -> ID . atom_id var_dim
+    (79) call_starts -> ID .
+    (54) atom_id -> .
+
+    L_PAREN         reduce using rule 79 (call_starts -> ID .)
+    L_SBRACKET      reduce using rule 54 (atom_id -> .)
+    ASSIGN          reduce using rule 54 (atom_id -> .)
+
+    atom_id                        shift and go to state 116
+
+state 81
+
+    (102) conditional -> WHILE . L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+
+    L_PAREN         shift and go to state 117
+
+
+state 82
+
+    (105) non_conditional -> FROM . from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (106) from_to_assignment -> . assignee ASSIGN hyper_exp
+    (39) assignee -> . ID atom_id var_dim
+
+    ID              shift and go to state 120
+
+    from_to_assignment             shift and go to state 118
+    assignee                       shift and go to state 119
+
+state 83
+
+    (121) line -> LINE . L_PAREN exp R_PAREN
+
+    L_PAREN         shift and go to state 121
+
+
+state 84
+
+    (122) dot -> DOT . L_PAREN exp R_PAREN
+
+    L_PAREN         shift and go to state 122
+
+
+state 85
+
+    (123) circle -> CIRCLE . L_PAREN exp R_PAREN
+
+    L_PAREN         shift and go to state 123
+
+
+state 86
+
+    (124) arc -> ARC . L_PAREN exp R_PAREN
+
+    L_PAREN         shift and go to state 124
+
+
+state 87
+
+    (125) penup -> PENUP . L_PAREN R_PAREN
+
+    L_PAREN         shift and go to state 125
+
+
+state 88
+
+    (126) pendown -> PENDOWN . L_PAREN R_PAREN
+
+    L_PAREN         shift and go to state 126
+
+
+state 89
+
+    (127) color -> COLOR . L_PAREN CT_STRING R_PAREN
+
+    L_PAREN         shift and go to state 127
+
+
+state 90
+
+    (128) size -> SIZE . L_PAREN exp R_PAREN
+
+    L_PAREN         shift and go to state 128
+
+
+state 91
+
+    (129) reset -> RESET . L_PAREN R_PAREN
+
+    L_PAREN         shift and go to state 129
+
+
+state 92
+
+    (130) left -> LEFT . L_PAREN exp R_PAREN
+
+    L_PAREN         shift and go to state 130
+
+
+state 93
+
+    (131) right -> RIGHT . L_PAREN exp R_PAREN
+
+    L_PAREN         shift and go to state 131
+
+
+state 94
+
+    (133) main_init -> MAIN L_PAREN R_PAREN .
+
+    L_BRACKET       reduce using rule 133 (main_init -> MAIN L_PAREN R_PAREN .)
+
+
+state 95
+
+    (19) func_header -> func_init L_PAREN params_decl R_PAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 132
+
+
+state 96
+
+    (25) param_decl -> param params_list .
+
+    R_PAREN         reduce using rule 25 (param_decl -> param params_list .)
+
+
+state 97
+
+    (27) params_list -> COMMA . param_decl
+    (25) param_decl -> . param params_list
+    (26) param -> . ID COLON type
+
+    ID              shift and go to state 47
+
+    param_decl                     shift and go to state 133
+    param                          shift and go to state 46
+
+state 98
+
+    (28) params_list -> empty .
+
+    R_PAREN         reduce using rule 28 (params_list -> empty .)
+
+
+state 99
+
+    (26) param -> ID COLON . type
+    (11) type -> . INT
+    (12) type -> . FLOAT
+    (13) type -> . CHAR
+
+    INT             shift and go to state 16
+    FLOAT           shift and go to state 17
+    CHAR            shift and go to state 18
+
+    type                           shift and go to state 134
+
+state 100
+
+    (5) vars_decl -> var_decl vars_list COLON type . SEMICOLON
+
+    SEMICOLON       shift and go to state 135
+
+
+state 101
+
+    (9) vars_list -> COMMA var_decl vars_list .
+
+    COLON           reduce using rule 9 (vars_list -> COMMA var_decl vars_list .)
+
+
+state 102
+
+    (7) var_dim -> L_SBRACKET CT_INT R_SBRACKET .
+
+    COMMA           reduce using rule 7 (var_dim -> L_SBRACKET CT_INT R_SBRACKET .)
+    COLON           reduce using rule 7 (var_dim -> L_SBRACKET CT_INT R_SBRACKET .)
+    ASSIGN          reduce using rule 7 (var_dim -> L_SBRACKET CT_INT R_SBRACKET .)
+
+
+state 103
+
+    (29) func_body -> L_BRACKET stmnt R_BRACKET .
+
+    $end            reduce using rule 29 (func_body -> L_BRACKET stmnt R_BRACKET .)
+    VOID            reduce using rule 29 (func_body -> L_BRACKET stmnt R_BRACKET .)
+    INT             reduce using rule 29 (func_body -> L_BRACKET stmnt R_BRACKET .)
+    FLOAT           reduce using rule 29 (func_body -> L_BRACKET stmnt R_BRACKET .)
+    CHAR            reduce using rule 29 (func_body -> L_BRACKET stmnt R_BRACKET .)
+    MAIN            reduce using rule 29 (func_body -> L_BRACKET stmnt R_BRACKET .)
+
+
+state 104
+
+    (30) stmnt -> return SEMICOLON .
+
+    R_BRACKET       reduce using rule 30 (stmnt -> return SEMICOLON .)
+
+
+state 105
+
+    (31) stmnt -> assignment SEMICOLON . stmnt
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    assignment                     shift and go to state 55
+    stmnt                          shift and go to state 136
+    return                         shift and go to state 54
+    print                          shift and go to state 56
+    decision                       shift and go to state 57
+    loop                           shift and go to state 58
+    call                           shift and go to state 59
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 106
+
+    (32) stmnt -> print SEMICOLON . stmnt
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    print                          shift and go to state 56
+    stmnt                          shift and go to state 137
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    decision                       shift and go to state 57
+    loop                           shift and go to state 58
+    call                           shift and go to state 59
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 107
+
+    (33) stmnt -> decision SEMICOLON . stmnt
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    decision                       shift and go to state 57
+    stmnt                          shift and go to state 138
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    print                          shift and go to state 56
+    loop                           shift and go to state 58
+    call                           shift and go to state 59
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 108
+
+    (34) stmnt -> loop SEMICOLON . stmnt
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    loop                           shift and go to state 58
+    stmnt                          shift and go to state 139
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    print                          shift and go to state 56
+    decision                       shift and go to state 57
+    call                           shift and go to state 59
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 109
+
+    (35) stmnt -> call SEMICOLON . stmnt
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    call                           shift and go to state 59
+    stmnt                          shift and go to state 140
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    print                          shift and go to state 56
+    decision                       shift and go to state 57
+    loop                           shift and go to state 58
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 110
+
+    (36) stmnt -> graphics SEMICOLON . stmnt
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    graphics                       shift and go to state 60
+    stmnt                          shift and go to state 141
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    print                          shift and go to state 56
+    decision                       shift and go to state 57
+    loop                           shift and go to state 58
+    call                           shift and go to state 59
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 111
+
+    (86) return -> RETURN L_PAREN . hyper_exp R_PAREN
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    hyper_exp                      shift and go to state 143
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 112
+
+    (38) assignment -> assignee ASSIGN . hyper_exp
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    hyper_exp                      shift and go to state 155
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 113
+
+    (87) print -> PRINT L_PAREN . to_print R_PAREN
+    (88) to_print -> . hyper_exp print_exp printing_list
+    (89) to_print -> . CT_STRING print_str printing_list
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    CT_STRING       shift and go to state 158
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    to_print                       shift and go to state 156
+    hyper_exp                      shift and go to state 157
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 114
+
+    (94) decision -> IF L_PAREN . hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    hyper_exp                      shift and go to state 159
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 115
+
+    (78) call -> call_starts L_PAREN . args R_PAREN
+    (80) args -> . arg
+    (81) args -> . empty
+    (82) arg -> . hyper_exp param_quad arg_list
+    (134) empty -> .
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    R_PAREN         reduce using rule 134 (empty -> .)
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    call_starts                    shift and go to state 68
+    args                           shift and go to state 160
+    arg                            shift and go to state 161
+    empty                          shift and go to state 162
+    hyper_exp                      shift and go to state 163
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+
+state 116
+
+    (39) assignee -> ID atom_id . var_dim
+    (7) var_dim -> . L_SBRACKET CT_INT R_SBRACKET
+    (8) var_dim -> . empty
+    (134) empty -> .
+
+    L_SBRACKET      shift and go to state 37
+    ASSIGN          reduce using rule 134 (empty -> .)
+
+    var_dim                        shift and go to state 164
+    empty                          shift and go to state 38
+
+state 117
+
+    (102) conditional -> WHILE L_PAREN . while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (103) while_starts -> .
+
+    L_PAREN         reduce using rule 103 (while_starts -> .)
+    ID              reduce using rule 103 (while_starts -> .)
+    CT_INT          reduce using rule 103 (while_starts -> .)
+    CT_FLOAT        reduce using rule 103 (while_starts -> .)
+    CT_CHAR         reduce using rule 103 (while_starts -> .)
+
+    while_starts                   shift and go to state 165
+
+state 118
+
+    (105) non_conditional -> FROM from_to_assignment . TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+
+    TO              shift and go to state 166
+
+
+state 119
+
+    (106) from_to_assignment -> assignee . ASSIGN hyper_exp
+
+    ASSIGN          shift and go to state 167
+
+
+state 120
+
+    (39) assignee -> ID . atom_id var_dim
+    (54) atom_id -> .
+
+    L_SBRACKET      reduce using rule 54 (atom_id -> .)
+    ASSIGN          reduce using rule 54 (atom_id -> .)
+
+    atom_id                        shift and go to state 116
+
+state 121
+
+    (121) line -> LINE L_PAREN . exp R_PAREN
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    exp                            shift and go to state 168
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 122
+
+    (122) dot -> DOT L_PAREN . exp R_PAREN
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    exp                            shift and go to state 169
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 123
+
+    (123) circle -> CIRCLE L_PAREN . exp R_PAREN
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    exp                            shift and go to state 170
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 124
+
+    (124) arc -> ARC L_PAREN . exp R_PAREN
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    exp                            shift and go to state 171
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 125
+
+    (125) penup -> PENUP L_PAREN . R_PAREN
+
+    R_PAREN         shift and go to state 172
+
+
+state 126
+
+    (126) pendown -> PENDOWN L_PAREN . R_PAREN
+
+    R_PAREN         shift and go to state 173
+
+
+state 127
+
+    (127) color -> COLOR L_PAREN . CT_STRING R_PAREN
+
+    CT_STRING       shift and go to state 174
+
+
+state 128
+
+    (128) size -> SIZE L_PAREN . exp R_PAREN
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    exp                            shift and go to state 175
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 129
+
+    (129) reset -> RESET L_PAREN . R_PAREN
+
+    R_PAREN         shift and go to state 176
+
+
+state 130
+
+    (130) left -> LEFT L_PAREN . exp R_PAREN
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    exp                            shift and go to state 177
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 131
+
+    (131) right -> RIGHT L_PAREN . exp R_PAREN
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    exp                            shift and go to state 178
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 132
+
+    (19) func_header -> func_init L_PAREN params_decl R_PAREN SEMICOLON .
+
+    VARS            reduce using rule 19 (func_header -> func_init L_PAREN params_decl R_PAREN SEMICOLON .)
+    L_BRACKET       reduce using rule 19 (func_header -> func_init L_PAREN params_decl R_PAREN SEMICOLON .)
+
+
+state 133
+
+    (27) params_list -> COMMA param_decl .
+
+    R_PAREN         reduce using rule 27 (params_list -> COMMA param_decl .)
+
+
+state 134
+
+    (26) param -> ID COLON type .
+
+    COMMA           reduce using rule 26 (param -> ID COLON type .)
+    R_PAREN         reduce using rule 26 (param -> ID COLON type .)
+
+
+state 135
+
+    (5) vars_decl -> var_decl vars_list COLON type SEMICOLON .
+
+    ID              reduce using rule 5 (vars_decl -> var_decl vars_list COLON type SEMICOLON .)
+    VOID            reduce using rule 5 (vars_decl -> var_decl vars_list COLON type SEMICOLON .)
+    INT             reduce using rule 5 (vars_decl -> var_decl vars_list COLON type SEMICOLON .)
+    FLOAT           reduce using rule 5 (vars_decl -> var_decl vars_list COLON type SEMICOLON .)
+    CHAR            reduce using rule 5 (vars_decl -> var_decl vars_list COLON type SEMICOLON .)
+    MAIN            reduce using rule 5 (vars_decl -> var_decl vars_list COLON type SEMICOLON .)
+    L_BRACKET       reduce using rule 5 (vars_decl -> var_decl vars_list COLON type SEMICOLON .)
+
+
+state 136
+
+    (31) stmnt -> assignment SEMICOLON stmnt .
+
+    R_BRACKET       reduce using rule 31 (stmnt -> assignment SEMICOLON stmnt .)
+
+
+state 137
+
+    (32) stmnt -> print SEMICOLON stmnt .
+
+    R_BRACKET       reduce using rule 32 (stmnt -> print SEMICOLON stmnt .)
+
+
+state 138
+
+    (33) stmnt -> decision SEMICOLON stmnt .
+
+    R_BRACKET       reduce using rule 33 (stmnt -> decision SEMICOLON stmnt .)
+
+
+state 139
+
+    (34) stmnt -> loop SEMICOLON stmnt .
+
+    R_BRACKET       reduce using rule 34 (stmnt -> loop SEMICOLON stmnt .)
+
+
+state 140
+
+    (35) stmnt -> call SEMICOLON stmnt .
+
+    R_BRACKET       reduce using rule 35 (stmnt -> call SEMICOLON stmnt .)
+
+
+state 141
+
+    (36) stmnt -> graphics SEMICOLON stmnt .
+
+    R_BRACKET       reduce using rule 36 (stmnt -> graphics SEMICOLON stmnt .)
+
+
+state 142
+
+    (46) false_buttom -> L_PAREN .
+
+    L_PAREN         reduce using rule 46 (false_buttom -> L_PAREN .)
+    ID              reduce using rule 46 (false_buttom -> L_PAREN .)
+    CT_INT          reduce using rule 46 (false_buttom -> L_PAREN .)
+    CT_FLOAT        reduce using rule 46 (false_buttom -> L_PAREN .)
+    CT_CHAR         reduce using rule 46 (false_buttom -> L_PAREN .)
+
+
+state 143
+
+    (86) return -> RETURN L_PAREN hyper_exp . R_PAREN
+
+    R_PAREN         shift and go to state 179
+
+
+state 144
+
+    (40) hyper_exp -> super_exp . logic exp_over
+    (74) logic -> . log_op super_exp
+    (75) logic -> . empty
+    (76) log_op -> . AND
+    (77) log_op -> . OR
+    (134) empty -> .
+
+    AND             shift and go to state 183
+    OR              shift and go to state 184
+    R_PAREN         reduce using rule 134 (empty -> .)
+    SEMICOLON       reduce using rule 134 (empty -> .)
+    COMMA           reduce using rule 134 (empty -> .)
+    DO              reduce using rule 134 (empty -> .)
+    TO              reduce using rule 134 (empty -> .)
+
+    logic                          shift and go to state 180
+    log_op                         shift and go to state 181
+    empty                          shift and go to state 182
+
+state 145
+
+    (41) super_exp -> exp . relation
+    (66) relation -> . rel_op exp
+    (67) relation -> . empty
+    (68) rel_op -> . GTE
+    (69) rel_op -> . LTE
+    (70) rel_op -> . GT
+    (71) rel_op -> . LT
+    (72) rel_op -> . NE
+    (73) rel_op -> . EQ
+    (134) empty -> .
+
+    GTE             shift and go to state 188
+    LTE             shift and go to state 189
+    GT              shift and go to state 190
+    LT              shift and go to state 191
+    NE              shift and go to state 192
+    EQ              shift and go to state 193
+    AND             reduce using rule 134 (empty -> .)
+    OR              reduce using rule 134 (empty -> .)
+    R_PAREN         reduce using rule 134 (empty -> .)
+    SEMICOLON       reduce using rule 134 (empty -> .)
+    COMMA           reduce using rule 134 (empty -> .)
+    DO              reduce using rule 134 (empty -> .)
+    TO              reduce using rule 134 (empty -> .)
+
+    relation                       shift and go to state 185
+    rel_op                         shift and go to state 186
+    empty                          shift and go to state 187
+
+state 146
+
+    (42) exp -> term . add_sub
+    (62) add_sub -> . add_sub_op exp
+    (63) add_sub -> . empty
+    (64) add_sub_op -> . ADD
+    (65) add_sub_op -> . SUB
+    (134) empty -> .
+
+    ADD             shift and go to state 197
+    SUB             shift and go to state 198
+    GTE             reduce using rule 134 (empty -> .)
+    LTE             reduce using rule 134 (empty -> .)
+    GT              reduce using rule 134 (empty -> .)
+    LT              reduce using rule 134 (empty -> .)
+    NE              reduce using rule 134 (empty -> .)
+    EQ              reduce using rule 134 (empty -> .)
+    AND             reduce using rule 134 (empty -> .)
+    OR              reduce using rule 134 (empty -> .)
+    R_PAREN         reduce using rule 134 (empty -> .)
+    SEMICOLON       reduce using rule 134 (empty -> .)
+    COMMA           reduce using rule 134 (empty -> .)
+    DO              reduce using rule 134 (empty -> .)
+    TO              reduce using rule 134 (empty -> .)
+
+    add_sub                        shift and go to state 194
+    add_sub_op                     shift and go to state 195
+    empty                          shift and go to state 196
+
+state 147
+
+    (43) term -> factor . times_divide
+    (58) times_divide -> . times_divide_op term
+    (59) times_divide -> . empty
+    (60) times_divide_op -> . TIMES
+    (61) times_divide_op -> . DIVIDE
+    (134) empty -> .
+
+    TIMES           shift and go to state 202
+    DIVIDE          shift and go to state 203
+    ADD             reduce using rule 134 (empty -> .)
+    SUB             reduce using rule 134 (empty -> .)
+    GTE             reduce using rule 134 (empty -> .)
+    LTE             reduce using rule 134 (empty -> .)
+    GT              reduce using rule 134 (empty -> .)
+    LT              reduce using rule 134 (empty -> .)
+    NE              reduce using rule 134 (empty -> .)
+    EQ              reduce using rule 134 (empty -> .)
+    AND             reduce using rule 134 (empty -> .)
+    OR              reduce using rule 134 (empty -> .)
+    R_PAREN         reduce using rule 134 (empty -> .)
+    SEMICOLON       reduce using rule 134 (empty -> .)
+    COMMA           reduce using rule 134 (empty -> .)
+    DO              reduce using rule 134 (empty -> .)
+    TO              reduce using rule 134 (empty -> .)
+
+    times_divide                   shift and go to state 199
+    times_divide_op                shift and go to state 200
+    empty                          shift and go to state 201
+
+state 148
+
+    (44) factor -> false_buttom . hyper_exp pop_false_buttom
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    false_buttom                   shift and go to state 148
+    hyper_exp                      shift and go to state 204
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 149
+
+    (45) factor -> atom .
+
+    TIMES           reduce using rule 45 (factor -> atom .)
+    DIVIDE          reduce using rule 45 (factor -> atom .)
+    ADD             reduce using rule 45 (factor -> atom .)
+    SUB             reduce using rule 45 (factor -> atom .)
+    GTE             reduce using rule 45 (factor -> atom .)
+    LTE             reduce using rule 45 (factor -> atom .)
+    GT              reduce using rule 45 (factor -> atom .)
+    LT              reduce using rule 45 (factor -> atom .)
+    NE              reduce using rule 45 (factor -> atom .)
+    EQ              reduce using rule 45 (factor -> atom .)
+    AND             reduce using rule 45 (factor -> atom .)
+    OR              reduce using rule 45 (factor -> atom .)
+    R_PAREN         reduce using rule 45 (factor -> atom .)
+    SEMICOLON       reduce using rule 45 (factor -> atom .)
+    COMMA           reduce using rule 45 (factor -> atom .)
+    DO              reduce using rule 45 (factor -> atom .)
+    TO              reduce using rule 45 (factor -> atom .)
+
+
+state 150
+
+    (49) atom -> ID . atom_id
+    (79) call_starts -> ID .
+    (54) atom_id -> .
+
+    L_PAREN         reduce using rule 79 (call_starts -> ID .)
+    TIMES           reduce using rule 54 (atom_id -> .)
+    DIVIDE          reduce using rule 54 (atom_id -> .)
+    ADD             reduce using rule 54 (atom_id -> .)
+    SUB             reduce using rule 54 (atom_id -> .)
+    GTE             reduce using rule 54 (atom_id -> .)
+    LTE             reduce using rule 54 (atom_id -> .)
+    GT              reduce using rule 54 (atom_id -> .)
+    LT              reduce using rule 54 (atom_id -> .)
+    NE              reduce using rule 54 (atom_id -> .)
+    EQ              reduce using rule 54 (atom_id -> .)
+    AND             reduce using rule 54 (atom_id -> .)
+    OR              reduce using rule 54 (atom_id -> .)
+    R_PAREN         reduce using rule 54 (atom_id -> .)
+    SEMICOLON       reduce using rule 54 (atom_id -> .)
+    COMMA           reduce using rule 54 (atom_id -> .)
+    DO              reduce using rule 54 (atom_id -> .)
+    TO              reduce using rule 54 (atom_id -> .)
+
+    atom_id                        shift and go to state 205
+
+state 151
+
+    (50) atom -> CT_INT . atom_ct_int
+    (55) atom_ct_int -> .
+
+    TIMES           reduce using rule 55 (atom_ct_int -> .)
+    DIVIDE          reduce using rule 55 (atom_ct_int -> .)
+    ADD             reduce using rule 55 (atom_ct_int -> .)
+    SUB             reduce using rule 55 (atom_ct_int -> .)
+    GTE             reduce using rule 55 (atom_ct_int -> .)
+    LTE             reduce using rule 55 (atom_ct_int -> .)
+    GT              reduce using rule 55 (atom_ct_int -> .)
+    LT              reduce using rule 55 (atom_ct_int -> .)
+    NE              reduce using rule 55 (atom_ct_int -> .)
+    EQ              reduce using rule 55 (atom_ct_int -> .)
+    AND             reduce using rule 55 (atom_ct_int -> .)
+    OR              reduce using rule 55 (atom_ct_int -> .)
+    R_PAREN         reduce using rule 55 (atom_ct_int -> .)
+    SEMICOLON       reduce using rule 55 (atom_ct_int -> .)
+    COMMA           reduce using rule 55 (atom_ct_int -> .)
+    DO              reduce using rule 55 (atom_ct_int -> .)
+    TO              reduce using rule 55 (atom_ct_int -> .)
+
+    atom_ct_int                    shift and go to state 206
+
+state 152
+
+    (51) atom -> CT_FLOAT . atom_ct_float
+    (56) atom_ct_float -> .
+
+    TIMES           reduce using rule 56 (atom_ct_float -> .)
+    DIVIDE          reduce using rule 56 (atom_ct_float -> .)
+    ADD             reduce using rule 56 (atom_ct_float -> .)
+    SUB             reduce using rule 56 (atom_ct_float -> .)
+    GTE             reduce using rule 56 (atom_ct_float -> .)
+    LTE             reduce using rule 56 (atom_ct_float -> .)
+    GT              reduce using rule 56 (atom_ct_float -> .)
+    LT              reduce using rule 56 (atom_ct_float -> .)
+    NE              reduce using rule 56 (atom_ct_float -> .)
+    EQ              reduce using rule 56 (atom_ct_float -> .)
+    AND             reduce using rule 56 (atom_ct_float -> .)
+    OR              reduce using rule 56 (atom_ct_float -> .)
+    R_PAREN         reduce using rule 56 (atom_ct_float -> .)
+    SEMICOLON       reduce using rule 56 (atom_ct_float -> .)
+    COMMA           reduce using rule 56 (atom_ct_float -> .)
+    DO              reduce using rule 56 (atom_ct_float -> .)
+    TO              reduce using rule 56 (atom_ct_float -> .)
+
+    atom_ct_float                  shift and go to state 207
+
+state 153
+
+    (52) atom -> CT_CHAR . atom_ct_char
+    (57) atom_ct_char -> .
+
+    TIMES           reduce using rule 57 (atom_ct_char -> .)
+    DIVIDE          reduce using rule 57 (atom_ct_char -> .)
+    ADD             reduce using rule 57 (atom_ct_char -> .)
+    SUB             reduce using rule 57 (atom_ct_char -> .)
+    GTE             reduce using rule 57 (atom_ct_char -> .)
+    LTE             reduce using rule 57 (atom_ct_char -> .)
+    GT              reduce using rule 57 (atom_ct_char -> .)
+    LT              reduce using rule 57 (atom_ct_char -> .)
+    NE              reduce using rule 57 (atom_ct_char -> .)
+    EQ              reduce using rule 57 (atom_ct_char -> .)
+    AND             reduce using rule 57 (atom_ct_char -> .)
+    OR              reduce using rule 57 (atom_ct_char -> .)
+    R_PAREN         reduce using rule 57 (atom_ct_char -> .)
+    SEMICOLON       reduce using rule 57 (atom_ct_char -> .)
+    COMMA           reduce using rule 57 (atom_ct_char -> .)
+    DO              reduce using rule 57 (atom_ct_char -> .)
+    TO              reduce using rule 57 (atom_ct_char -> .)
+
+    atom_ct_char                   shift and go to state 208
+
+state 154
+
+    (53) atom -> call .
+
+    TIMES           reduce using rule 53 (atom -> call .)
+    DIVIDE          reduce using rule 53 (atom -> call .)
+    ADD             reduce using rule 53 (atom -> call .)
+    SUB             reduce using rule 53 (atom -> call .)
+    GTE             reduce using rule 53 (atom -> call .)
+    LTE             reduce using rule 53 (atom -> call .)
+    GT              reduce using rule 53 (atom -> call .)
+    LT              reduce using rule 53 (atom -> call .)
+    NE              reduce using rule 53 (atom -> call .)
+    EQ              reduce using rule 53 (atom -> call .)
+    AND             reduce using rule 53 (atom -> call .)
+    OR              reduce using rule 53 (atom -> call .)
+    R_PAREN         reduce using rule 53 (atom -> call .)
+    SEMICOLON       reduce using rule 53 (atom -> call .)
+    COMMA           reduce using rule 53 (atom -> call .)
+    DO              reduce using rule 53 (atom -> call .)
+    TO              reduce using rule 53 (atom -> call .)
+
+
+state 155
+
+    (38) assignment -> assignee ASSIGN hyper_exp .
+
+    SEMICOLON       reduce using rule 38 (assignment -> assignee ASSIGN hyper_exp .)
+
+
+state 156
+
+    (87) print -> PRINT L_PAREN to_print . R_PAREN
+
+    R_PAREN         shift and go to state 209
+
+
+state 157
+
+    (88) to_print -> hyper_exp . print_exp printing_list
+    (90) print_exp -> .
+
+    COMMA           reduce using rule 90 (print_exp -> .)
+    R_PAREN         reduce using rule 90 (print_exp -> .)
+
+    print_exp                      shift and go to state 210
+
+state 158
+
+    (89) to_print -> CT_STRING . print_str printing_list
+    (91) print_str -> .
+
+    COMMA           reduce using rule 91 (print_str -> .)
+    R_PAREN         reduce using rule 91 (print_str -> .)
+
+    print_str                      shift and go to state 211
+
+state 159
+
+    (94) decision -> IF L_PAREN hyper_exp . cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (95) cond -> .
+
+    R_PAREN         reduce using rule 95 (cond -> .)
+
+    cond                           shift and go to state 212
+
+state 160
+
+    (78) call -> call_starts L_PAREN args . R_PAREN
+
+    R_PAREN         shift and go to state 213
+
+
+state 161
+
+    (80) args -> arg .
+
+    R_PAREN         reduce using rule 80 (args -> arg .)
+
+
+state 162
+
+    (81) args -> empty .
+
+    R_PAREN         reduce using rule 81 (args -> empty .)
+
+
+state 163
+
+    (82) arg -> hyper_exp . param_quad arg_list
+    (83) param_quad -> .
+
+    COMMA           reduce using rule 83 (param_quad -> .)
+    R_PAREN         reduce using rule 83 (param_quad -> .)
+
+    param_quad                     shift and go to state 214
+
+state 164
+
+    (39) assignee -> ID atom_id var_dim .
+
+    ASSIGN          reduce using rule 39 (assignee -> ID atom_id var_dim .)
+
+
+state 165
+
+    (102) conditional -> WHILE L_PAREN while_starts . hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    hyper_exp                      shift and go to state 215
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 166
+
+    (105) non_conditional -> FROM from_to_assignment TO . from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (107) from_to_limit -> . hyper_exp
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    from_to_limit                  shift and go to state 216
+    hyper_exp                      shift and go to state 217
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 167
+
+    (106) from_to_assignment -> assignee ASSIGN . hyper_exp
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    hyper_exp                      shift and go to state 218
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 168
+
+    (121) line -> LINE L_PAREN exp . R_PAREN
+
+    R_PAREN         shift and go to state 219
+
+
+state 169
+
+    (122) dot -> DOT L_PAREN exp . R_PAREN
+
+    R_PAREN         shift and go to state 220
+
+
+state 170
+
+    (123) circle -> CIRCLE L_PAREN exp . R_PAREN
+
+    R_PAREN         shift and go to state 221
+
+
+state 171
+
+    (124) arc -> ARC L_PAREN exp . R_PAREN
+
+    R_PAREN         shift and go to state 222
+
+
+state 172
+
+    (125) penup -> PENUP L_PAREN R_PAREN .
+
+    SEMICOLON       reduce using rule 125 (penup -> PENUP L_PAREN R_PAREN .)
+
+
+state 173
+
+    (126) pendown -> PENDOWN L_PAREN R_PAREN .
+
+    SEMICOLON       reduce using rule 126 (pendown -> PENDOWN L_PAREN R_PAREN .)
+
+
+state 174
+
+    (127) color -> COLOR L_PAREN CT_STRING . R_PAREN
+
+    R_PAREN         shift and go to state 223
+
+
+state 175
+
+    (128) size -> SIZE L_PAREN exp . R_PAREN
+
+    R_PAREN         shift and go to state 224
+
+
+state 176
+
+    (129) reset -> RESET L_PAREN R_PAREN .
+
+    SEMICOLON       reduce using rule 129 (reset -> RESET L_PAREN R_PAREN .)
+
+
+state 177
+
+    (130) left -> LEFT L_PAREN exp . R_PAREN
+
+    R_PAREN         shift and go to state 225
+
+
+state 178
+
+    (131) right -> RIGHT L_PAREN exp . R_PAREN
+
+    R_PAREN         shift and go to state 226
+
+
+state 179
+
+    (86) return -> RETURN L_PAREN hyper_exp R_PAREN .
+
+    SEMICOLON       reduce using rule 86 (return -> RETURN L_PAREN hyper_exp R_PAREN .)
+
+
+state 180
+
+    (40) hyper_exp -> super_exp logic . exp_over
+    (48) exp_over -> .
+
+    R_PAREN         reduce using rule 48 (exp_over -> .)
+    SEMICOLON       reduce using rule 48 (exp_over -> .)
+    COMMA           reduce using rule 48 (exp_over -> .)
+    DO              reduce using rule 48 (exp_over -> .)
+    TO              reduce using rule 48 (exp_over -> .)
+
+    exp_over                       shift and go to state 227
+
+state 181
+
+    (74) logic -> log_op . super_exp
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    super_exp                      shift and go to state 228
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 182
+
+    (75) logic -> empty .
+
+    R_PAREN         reduce using rule 75 (logic -> empty .)
+    SEMICOLON       reduce using rule 75 (logic -> empty .)
+    COMMA           reduce using rule 75 (logic -> empty .)
+    DO              reduce using rule 75 (logic -> empty .)
+    TO              reduce using rule 75 (logic -> empty .)
+
+
+state 183
+
+    (76) log_op -> AND .
+
+    L_PAREN         reduce using rule 76 (log_op -> AND .)
+    ID              reduce using rule 76 (log_op -> AND .)
+    CT_INT          reduce using rule 76 (log_op -> AND .)
+    CT_FLOAT        reduce using rule 76 (log_op -> AND .)
+    CT_CHAR         reduce using rule 76 (log_op -> AND .)
+
+
+state 184
+
+    (77) log_op -> OR .
+
+    L_PAREN         reduce using rule 77 (log_op -> OR .)
+    ID              reduce using rule 77 (log_op -> OR .)
+    CT_INT          reduce using rule 77 (log_op -> OR .)
+    CT_FLOAT        reduce using rule 77 (log_op -> OR .)
+    CT_CHAR         reduce using rule 77 (log_op -> OR .)
+
+
+state 185
+
+    (41) super_exp -> exp relation .
+
+    AND             reduce using rule 41 (super_exp -> exp relation .)
+    OR              reduce using rule 41 (super_exp -> exp relation .)
+    R_PAREN         reduce using rule 41 (super_exp -> exp relation .)
+    SEMICOLON       reduce using rule 41 (super_exp -> exp relation .)
+    COMMA           reduce using rule 41 (super_exp -> exp relation .)
+    DO              reduce using rule 41 (super_exp -> exp relation .)
+    TO              reduce using rule 41 (super_exp -> exp relation .)
+
+
+state 186
+
+    (66) relation -> rel_op . exp
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    exp                            shift and go to state 229
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 187
+
+    (67) relation -> empty .
+
+    AND             reduce using rule 67 (relation -> empty .)
+    OR              reduce using rule 67 (relation -> empty .)
+    R_PAREN         reduce using rule 67 (relation -> empty .)
+    SEMICOLON       reduce using rule 67 (relation -> empty .)
+    COMMA           reduce using rule 67 (relation -> empty .)
+    DO              reduce using rule 67 (relation -> empty .)
+    TO              reduce using rule 67 (relation -> empty .)
+
+
+state 188
+
+    (68) rel_op -> GTE .
+
+    L_PAREN         reduce using rule 68 (rel_op -> GTE .)
+    ID              reduce using rule 68 (rel_op -> GTE .)
+    CT_INT          reduce using rule 68 (rel_op -> GTE .)
+    CT_FLOAT        reduce using rule 68 (rel_op -> GTE .)
+    CT_CHAR         reduce using rule 68 (rel_op -> GTE .)
+
+
+state 189
+
+    (69) rel_op -> LTE .
+
+    L_PAREN         reduce using rule 69 (rel_op -> LTE .)
+    ID              reduce using rule 69 (rel_op -> LTE .)
+    CT_INT          reduce using rule 69 (rel_op -> LTE .)
+    CT_FLOAT        reduce using rule 69 (rel_op -> LTE .)
+    CT_CHAR         reduce using rule 69 (rel_op -> LTE .)
+
+
+state 190
+
+    (70) rel_op -> GT .
+
+    L_PAREN         reduce using rule 70 (rel_op -> GT .)
+    ID              reduce using rule 70 (rel_op -> GT .)
+    CT_INT          reduce using rule 70 (rel_op -> GT .)
+    CT_FLOAT        reduce using rule 70 (rel_op -> GT .)
+    CT_CHAR         reduce using rule 70 (rel_op -> GT .)
+
+
+state 191
+
+    (71) rel_op -> LT .
+
+    L_PAREN         reduce using rule 71 (rel_op -> LT .)
+    ID              reduce using rule 71 (rel_op -> LT .)
+    CT_INT          reduce using rule 71 (rel_op -> LT .)
+    CT_FLOAT        reduce using rule 71 (rel_op -> LT .)
+    CT_CHAR         reduce using rule 71 (rel_op -> LT .)
+
+
+state 192
+
+    (72) rel_op -> NE .
+
+    L_PAREN         reduce using rule 72 (rel_op -> NE .)
+    ID              reduce using rule 72 (rel_op -> NE .)
+    CT_INT          reduce using rule 72 (rel_op -> NE .)
+    CT_FLOAT        reduce using rule 72 (rel_op -> NE .)
+    CT_CHAR         reduce using rule 72 (rel_op -> NE .)
+
+
+state 193
+
+    (73) rel_op -> EQ .
+
+    L_PAREN         reduce using rule 73 (rel_op -> EQ .)
+    ID              reduce using rule 73 (rel_op -> EQ .)
+    CT_INT          reduce using rule 73 (rel_op -> EQ .)
+    CT_FLOAT        reduce using rule 73 (rel_op -> EQ .)
+    CT_CHAR         reduce using rule 73 (rel_op -> EQ .)
+
+
+state 194
+
+    (42) exp -> term add_sub .
+
+    GTE             reduce using rule 42 (exp -> term add_sub .)
+    LTE             reduce using rule 42 (exp -> term add_sub .)
+    GT              reduce using rule 42 (exp -> term add_sub .)
+    LT              reduce using rule 42 (exp -> term add_sub .)
+    NE              reduce using rule 42 (exp -> term add_sub .)
+    EQ              reduce using rule 42 (exp -> term add_sub .)
+    AND             reduce using rule 42 (exp -> term add_sub .)
+    OR              reduce using rule 42 (exp -> term add_sub .)
+    R_PAREN         reduce using rule 42 (exp -> term add_sub .)
+    SEMICOLON       reduce using rule 42 (exp -> term add_sub .)
+    COMMA           reduce using rule 42 (exp -> term add_sub .)
+    DO              reduce using rule 42 (exp -> term add_sub .)
+    TO              reduce using rule 42 (exp -> term add_sub .)
+
+
+state 195
+
+    (62) add_sub -> add_sub_op . exp
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    exp                            shift and go to state 230
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 196
+
+    (63) add_sub -> empty .
+
+    GTE             reduce using rule 63 (add_sub -> empty .)
+    LTE             reduce using rule 63 (add_sub -> empty .)
+    GT              reduce using rule 63 (add_sub -> empty .)
+    LT              reduce using rule 63 (add_sub -> empty .)
+    NE              reduce using rule 63 (add_sub -> empty .)
+    EQ              reduce using rule 63 (add_sub -> empty .)
+    AND             reduce using rule 63 (add_sub -> empty .)
+    OR              reduce using rule 63 (add_sub -> empty .)
+    R_PAREN         reduce using rule 63 (add_sub -> empty .)
+    SEMICOLON       reduce using rule 63 (add_sub -> empty .)
+    COMMA           reduce using rule 63 (add_sub -> empty .)
+    DO              reduce using rule 63 (add_sub -> empty .)
+    TO              reduce using rule 63 (add_sub -> empty .)
+
+
+state 197
+
+    (64) add_sub_op -> ADD .
+
+    L_PAREN         reduce using rule 64 (add_sub_op -> ADD .)
+    ID              reduce using rule 64 (add_sub_op -> ADD .)
+    CT_INT          reduce using rule 64 (add_sub_op -> ADD .)
+    CT_FLOAT        reduce using rule 64 (add_sub_op -> ADD .)
+    CT_CHAR         reduce using rule 64 (add_sub_op -> ADD .)
+
+
+state 198
+
+    (65) add_sub_op -> SUB .
+
+    L_PAREN         reduce using rule 65 (add_sub_op -> SUB .)
+    ID              reduce using rule 65 (add_sub_op -> SUB .)
+    CT_INT          reduce using rule 65 (add_sub_op -> SUB .)
+    CT_FLOAT        reduce using rule 65 (add_sub_op -> SUB .)
+    CT_CHAR         reduce using rule 65 (add_sub_op -> SUB .)
+
+
+state 199
+
+    (43) term -> factor times_divide .
+
+    ADD             reduce using rule 43 (term -> factor times_divide .)
+    SUB             reduce using rule 43 (term -> factor times_divide .)
+    GTE             reduce using rule 43 (term -> factor times_divide .)
+    LTE             reduce using rule 43 (term -> factor times_divide .)
+    GT              reduce using rule 43 (term -> factor times_divide .)
+    LT              reduce using rule 43 (term -> factor times_divide .)
+    NE              reduce using rule 43 (term -> factor times_divide .)
+    EQ              reduce using rule 43 (term -> factor times_divide .)
+    AND             reduce using rule 43 (term -> factor times_divide .)
+    OR              reduce using rule 43 (term -> factor times_divide .)
+    R_PAREN         reduce using rule 43 (term -> factor times_divide .)
+    SEMICOLON       reduce using rule 43 (term -> factor times_divide .)
+    COMMA           reduce using rule 43 (term -> factor times_divide .)
+    DO              reduce using rule 43 (term -> factor times_divide .)
+    TO              reduce using rule 43 (term -> factor times_divide .)
+
+
+state 200
+
+    (58) times_divide -> times_divide_op . term
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    term                           shift and go to state 231
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 201
+
+    (59) times_divide -> empty .
+
+    ADD             reduce using rule 59 (times_divide -> empty .)
+    SUB             reduce using rule 59 (times_divide -> empty .)
+    GTE             reduce using rule 59 (times_divide -> empty .)
+    LTE             reduce using rule 59 (times_divide -> empty .)
+    GT              reduce using rule 59 (times_divide -> empty .)
+    LT              reduce using rule 59 (times_divide -> empty .)
+    NE              reduce using rule 59 (times_divide -> empty .)
+    EQ              reduce using rule 59 (times_divide -> empty .)
+    AND             reduce using rule 59 (times_divide -> empty .)
+    OR              reduce using rule 59 (times_divide -> empty .)
+    R_PAREN         reduce using rule 59 (times_divide -> empty .)
+    SEMICOLON       reduce using rule 59 (times_divide -> empty .)
+    COMMA           reduce using rule 59 (times_divide -> empty .)
+    DO              reduce using rule 59 (times_divide -> empty .)
+    TO              reduce using rule 59 (times_divide -> empty .)
+
+
+state 202
+
+    (60) times_divide_op -> TIMES .
+
+    L_PAREN         reduce using rule 60 (times_divide_op -> TIMES .)
+    ID              reduce using rule 60 (times_divide_op -> TIMES .)
+    CT_INT          reduce using rule 60 (times_divide_op -> TIMES .)
+    CT_FLOAT        reduce using rule 60 (times_divide_op -> TIMES .)
+    CT_CHAR         reduce using rule 60 (times_divide_op -> TIMES .)
+
+
+state 203
+
+    (61) times_divide_op -> DIVIDE .
+
+    L_PAREN         reduce using rule 61 (times_divide_op -> DIVIDE .)
+    ID              reduce using rule 61 (times_divide_op -> DIVIDE .)
+    CT_INT          reduce using rule 61 (times_divide_op -> DIVIDE .)
+    CT_FLOAT        reduce using rule 61 (times_divide_op -> DIVIDE .)
+    CT_CHAR         reduce using rule 61 (times_divide_op -> DIVIDE .)
+
+
+state 204
+
+    (44) factor -> false_buttom hyper_exp . pop_false_buttom
+    (47) pop_false_buttom -> . R_PAREN
+
+    R_PAREN         shift and go to state 233
+
+    pop_false_buttom               shift and go to state 232
+
+state 205
+
+    (49) atom -> ID atom_id .
+
+    TIMES           reduce using rule 49 (atom -> ID atom_id .)
+    DIVIDE          reduce using rule 49 (atom -> ID atom_id .)
+    ADD             reduce using rule 49 (atom -> ID atom_id .)
+    SUB             reduce using rule 49 (atom -> ID atom_id .)
+    GTE             reduce using rule 49 (atom -> ID atom_id .)
+    LTE             reduce using rule 49 (atom -> ID atom_id .)
+    GT              reduce using rule 49 (atom -> ID atom_id .)
+    LT              reduce using rule 49 (atom -> ID atom_id .)
+    NE              reduce using rule 49 (atom -> ID atom_id .)
+    EQ              reduce using rule 49 (atom -> ID atom_id .)
+    AND             reduce using rule 49 (atom -> ID atom_id .)
+    OR              reduce using rule 49 (atom -> ID atom_id .)
+    R_PAREN         reduce using rule 49 (atom -> ID atom_id .)
+    SEMICOLON       reduce using rule 49 (atom -> ID atom_id .)
+    COMMA           reduce using rule 49 (atom -> ID atom_id .)
+    DO              reduce using rule 49 (atom -> ID atom_id .)
+    TO              reduce using rule 49 (atom -> ID atom_id .)
+
+
+state 206
+
+    (50) atom -> CT_INT atom_ct_int .
+
+    TIMES           reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    DIVIDE          reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    ADD             reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    SUB             reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    GTE             reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    LTE             reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    GT              reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    LT              reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    NE              reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    EQ              reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    AND             reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    OR              reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    R_PAREN         reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    SEMICOLON       reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    COMMA           reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    DO              reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+    TO              reduce using rule 50 (atom -> CT_INT atom_ct_int .)
+
+
+state 207
+
+    (51) atom -> CT_FLOAT atom_ct_float .
+
+    TIMES           reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    DIVIDE          reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    ADD             reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    SUB             reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    GTE             reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    LTE             reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    GT              reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    LT              reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    NE              reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    EQ              reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    AND             reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    OR              reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    R_PAREN         reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    SEMICOLON       reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    COMMA           reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    DO              reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+    TO              reduce using rule 51 (atom -> CT_FLOAT atom_ct_float .)
+
+
+state 208
+
+    (52) atom -> CT_CHAR atom_ct_char .
+
+    TIMES           reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    DIVIDE          reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    ADD             reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    SUB             reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    GTE             reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    LTE             reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    GT              reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    LT              reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    NE              reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    EQ              reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    AND             reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    OR              reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    R_PAREN         reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    SEMICOLON       reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    COMMA           reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    DO              reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+    TO              reduce using rule 52 (atom -> CT_CHAR atom_ct_char .)
+
+
+state 209
+
+    (87) print -> PRINT L_PAREN to_print R_PAREN .
+
+    SEMICOLON       reduce using rule 87 (print -> PRINT L_PAREN to_print R_PAREN .)
+
+
+state 210
+
+    (88) to_print -> hyper_exp print_exp . printing_list
+    (92) printing_list -> . COMMA to_print
+    (93) printing_list -> . empty
+    (134) empty -> .
+
+    COMMA           shift and go to state 235
+    R_PAREN         reduce using rule 134 (empty -> .)
+
+    printing_list                  shift and go to state 234
+    empty                          shift and go to state 236
+
+state 211
+
+    (89) to_print -> CT_STRING print_str . printing_list
+    (92) printing_list -> . COMMA to_print
+    (93) printing_list -> . empty
+    (134) empty -> .
+
+    COMMA           shift and go to state 235
+    R_PAREN         reduce using rule 134 (empty -> .)
+
+    printing_list                  shift and go to state 237
+    empty                          shift and go to state 236
+
+state 212
+
+    (94) decision -> IF L_PAREN hyper_exp cond . R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+
+    R_PAREN         shift and go to state 238
+
+
+state 213
+
+    (78) call -> call_starts L_PAREN args R_PAREN .
+
+    SEMICOLON       reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    TIMES           reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    DIVIDE          reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    ADD             reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    SUB             reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    GTE             reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    LTE             reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    GT              reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    LT              reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    NE              reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    EQ              reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    AND             reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    OR              reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    R_PAREN         reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    COMMA           reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    DO              reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+    TO              reduce using rule 78 (call -> call_starts L_PAREN args R_PAREN .)
+
+
+state 214
+
+    (82) arg -> hyper_exp param_quad . arg_list
+    (84) arg_list -> . COMMA arg
+    (85) arg_list -> . empty
+    (134) empty -> .
+
+    COMMA           shift and go to state 240
+    R_PAREN         reduce using rule 134 (empty -> .)
+
+    arg_list                       shift and go to state 239
+    empty                          shift and go to state 241
+
+state 215
+
+    (102) conditional -> WHILE L_PAREN while_starts hyper_exp . cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (95) cond -> .
+
+    R_PAREN         reduce using rule 95 (cond -> .)
+
+    cond                           shift and go to state 242
+
+state 216
+
+    (105) non_conditional -> FROM from_to_assignment TO from_to_limit . from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (108) from_to_cond -> .
+
+    DO              reduce using rule 108 (from_to_cond -> .)
+
+    from_to_cond                   shift and go to state 243
+
+state 217
+
+    (107) from_to_limit -> hyper_exp .
+
+    DO              reduce using rule 107 (from_to_limit -> hyper_exp .)
+
+
+state 218
+
+    (106) from_to_assignment -> assignee ASSIGN hyper_exp .
+
+    TO              reduce using rule 106 (from_to_assignment -> assignee ASSIGN hyper_exp .)
+
+
+state 219
+
+    (121) line -> LINE L_PAREN exp R_PAREN .
+
+    SEMICOLON       reduce using rule 121 (line -> LINE L_PAREN exp R_PAREN .)
+
+
+state 220
+
+    (122) dot -> DOT L_PAREN exp R_PAREN .
+
+    SEMICOLON       reduce using rule 122 (dot -> DOT L_PAREN exp R_PAREN .)
+
+
+state 221
+
+    (123) circle -> CIRCLE L_PAREN exp R_PAREN .
+
+    SEMICOLON       reduce using rule 123 (circle -> CIRCLE L_PAREN exp R_PAREN .)
+
+
+state 222
+
+    (124) arc -> ARC L_PAREN exp R_PAREN .
+
+    SEMICOLON       reduce using rule 124 (arc -> ARC L_PAREN exp R_PAREN .)
+
+
+state 223
+
+    (127) color -> COLOR L_PAREN CT_STRING R_PAREN .
+
+    SEMICOLON       reduce using rule 127 (color -> COLOR L_PAREN CT_STRING R_PAREN .)
+
+
+state 224
+
+    (128) size -> SIZE L_PAREN exp R_PAREN .
+
+    SEMICOLON       reduce using rule 128 (size -> SIZE L_PAREN exp R_PAREN .)
+
+
+state 225
+
+    (130) left -> LEFT L_PAREN exp R_PAREN .
+
+    SEMICOLON       reduce using rule 130 (left -> LEFT L_PAREN exp R_PAREN .)
+
+
+state 226
+
+    (131) right -> RIGHT L_PAREN exp R_PAREN .
+
+    SEMICOLON       reduce using rule 131 (right -> RIGHT L_PAREN exp R_PAREN .)
+
+
+state 227
+
+    (40) hyper_exp -> super_exp logic exp_over .
+
+    R_PAREN         reduce using rule 40 (hyper_exp -> super_exp logic exp_over .)
+    SEMICOLON       reduce using rule 40 (hyper_exp -> super_exp logic exp_over .)
+    COMMA           reduce using rule 40 (hyper_exp -> super_exp logic exp_over .)
+    DO              reduce using rule 40 (hyper_exp -> super_exp logic exp_over .)
+    TO              reduce using rule 40 (hyper_exp -> super_exp logic exp_over .)
+
+
+state 228
+
+    (74) logic -> log_op super_exp .
+
+    R_PAREN         reduce using rule 74 (logic -> log_op super_exp .)
+    SEMICOLON       reduce using rule 74 (logic -> log_op super_exp .)
+    COMMA           reduce using rule 74 (logic -> log_op super_exp .)
+    DO              reduce using rule 74 (logic -> log_op super_exp .)
+    TO              reduce using rule 74 (logic -> log_op super_exp .)
+
+
+state 229
+
+    (66) relation -> rel_op exp .
+
+    AND             reduce using rule 66 (relation -> rel_op exp .)
+    OR              reduce using rule 66 (relation -> rel_op exp .)
+    R_PAREN         reduce using rule 66 (relation -> rel_op exp .)
+    SEMICOLON       reduce using rule 66 (relation -> rel_op exp .)
+    COMMA           reduce using rule 66 (relation -> rel_op exp .)
+    DO              reduce using rule 66 (relation -> rel_op exp .)
+    TO              reduce using rule 66 (relation -> rel_op exp .)
+
+
+state 230
+
+    (62) add_sub -> add_sub_op exp .
+
+    GTE             reduce using rule 62 (add_sub -> add_sub_op exp .)
+    LTE             reduce using rule 62 (add_sub -> add_sub_op exp .)
+    GT              reduce using rule 62 (add_sub -> add_sub_op exp .)
+    LT              reduce using rule 62 (add_sub -> add_sub_op exp .)
+    NE              reduce using rule 62 (add_sub -> add_sub_op exp .)
+    EQ              reduce using rule 62 (add_sub -> add_sub_op exp .)
+    AND             reduce using rule 62 (add_sub -> add_sub_op exp .)
+    OR              reduce using rule 62 (add_sub -> add_sub_op exp .)
+    R_PAREN         reduce using rule 62 (add_sub -> add_sub_op exp .)
+    SEMICOLON       reduce using rule 62 (add_sub -> add_sub_op exp .)
+    COMMA           reduce using rule 62 (add_sub -> add_sub_op exp .)
+    DO              reduce using rule 62 (add_sub -> add_sub_op exp .)
+    TO              reduce using rule 62 (add_sub -> add_sub_op exp .)
+
+
+state 231
+
+    (58) times_divide -> times_divide_op term .
+
+    ADD             reduce using rule 58 (times_divide -> times_divide_op term .)
+    SUB             reduce using rule 58 (times_divide -> times_divide_op term .)
+    GTE             reduce using rule 58 (times_divide -> times_divide_op term .)
+    LTE             reduce using rule 58 (times_divide -> times_divide_op term .)
+    GT              reduce using rule 58 (times_divide -> times_divide_op term .)
+    LT              reduce using rule 58 (times_divide -> times_divide_op term .)
+    NE              reduce using rule 58 (times_divide -> times_divide_op term .)
+    EQ              reduce using rule 58 (times_divide -> times_divide_op term .)
+    AND             reduce using rule 58 (times_divide -> times_divide_op term .)
+    OR              reduce using rule 58 (times_divide -> times_divide_op term .)
+    R_PAREN         reduce using rule 58 (times_divide -> times_divide_op term .)
+    SEMICOLON       reduce using rule 58 (times_divide -> times_divide_op term .)
+    COMMA           reduce using rule 58 (times_divide -> times_divide_op term .)
+    DO              reduce using rule 58 (times_divide -> times_divide_op term .)
+    TO              reduce using rule 58 (times_divide -> times_divide_op term .)
+
+
+state 232
+
+    (44) factor -> false_buttom hyper_exp pop_false_buttom .
+
+    TIMES           reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    DIVIDE          reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    ADD             reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    SUB             reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    GTE             reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    LTE             reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    GT              reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    LT              reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    NE              reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    EQ              reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    AND             reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    OR              reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    R_PAREN         reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    SEMICOLON       reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    COMMA           reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    DO              reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+    TO              reduce using rule 44 (factor -> false_buttom hyper_exp pop_false_buttom .)
+
+
+state 233
+
+    (47) pop_false_buttom -> R_PAREN .
+
+    TIMES           reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    DIVIDE          reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    ADD             reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    SUB             reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    GTE             reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    LTE             reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    GT              reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    LT              reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    NE              reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    EQ              reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    AND             reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    OR              reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    R_PAREN         reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    SEMICOLON       reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    COMMA           reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    DO              reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+    TO              reduce using rule 47 (pop_false_buttom -> R_PAREN .)
+
+
+state 234
+
+    (88) to_print -> hyper_exp print_exp printing_list .
+
+    R_PAREN         reduce using rule 88 (to_print -> hyper_exp print_exp printing_list .)
+
+
+state 235
+
+    (92) printing_list -> COMMA . to_print
+    (88) to_print -> . hyper_exp print_exp printing_list
+    (89) to_print -> . CT_STRING print_str printing_list
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    CT_STRING       shift and go to state 158
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    to_print                       shift and go to state 244
+    hyper_exp                      shift and go to state 157
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 236
+
+    (93) printing_list -> empty .
+
+    R_PAREN         reduce using rule 93 (printing_list -> empty .)
+
+
+state 237
+
+    (89) to_print -> CT_STRING print_str printing_list .
+
+    R_PAREN         reduce using rule 89 (to_print -> CT_STRING print_str printing_list .)
+
+
+state 238
+
+    (94) decision -> IF L_PAREN hyper_exp cond R_PAREN . THEN L_BRACKET stmnt R_BRACKET else_block if_over
+
+    THEN            shift and go to state 245
+
+
+state 239
+
+    (82) arg -> hyper_exp param_quad arg_list .
+
+    R_PAREN         reduce using rule 82 (arg -> hyper_exp param_quad arg_list .)
+
+
+state 240
+
+    (84) arg_list -> COMMA . arg
+    (82) arg -> . hyper_exp param_quad arg_list
+    (40) hyper_exp -> . super_exp logic exp_over
+    (41) super_exp -> . exp relation
+    (42) exp -> . term add_sub
+    (43) term -> . factor times_divide
+    (44) factor -> . false_buttom hyper_exp pop_false_buttom
+    (45) factor -> . atom
+    (46) false_buttom -> . L_PAREN
+    (49) atom -> . ID atom_id
+    (50) atom -> . CT_INT atom_ct_int
+    (51) atom -> . CT_FLOAT atom_ct_float
+    (52) atom -> . CT_CHAR atom_ct_char
+    (53) atom -> . call
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (79) call_starts -> . ID
+
+    L_PAREN         shift and go to state 142
+    ID              shift and go to state 150
+    CT_INT          shift and go to state 151
+    CT_FLOAT        shift and go to state 152
+    CT_CHAR         shift and go to state 153
+
+    arg                            shift and go to state 246
+    hyper_exp                      shift and go to state 163
+    super_exp                      shift and go to state 144
+    exp                            shift and go to state 145
+    term                           shift and go to state 146
+    factor                         shift and go to state 147
+    false_buttom                   shift and go to state 148
+    atom                           shift and go to state 149
+    call                           shift and go to state 154
+    call_starts                    shift and go to state 68
+
+state 241
+
+    (85) arg_list -> empty .
+
+    R_PAREN         reduce using rule 85 (arg_list -> empty .)
+
+
+state 242
+
+    (102) conditional -> WHILE L_PAREN while_starts hyper_exp cond . R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+
+    R_PAREN         shift and go to state 247
+
+
+state 243
+
+    (105) non_conditional -> FROM from_to_assignment TO from_to_limit from_to_cond . DO L_BRACKET stmnt R_BRACKET from_to_over
+
+    DO              shift and go to state 248
+
+
+state 244
+
+    (92) printing_list -> COMMA to_print .
+
+    R_PAREN         reduce using rule 92 (printing_list -> COMMA to_print .)
+
+
+state 245
+
+    (94) decision -> IF L_PAREN hyper_exp cond R_PAREN THEN . L_BRACKET stmnt R_BRACKET else_block if_over
+
+    L_BRACKET       shift and go to state 249
+
+
+state 246
+
+    (84) arg_list -> COMMA arg .
+
+    R_PAREN         reduce using rule 84 (arg_list -> COMMA arg .)
+
+
+state 247
+
+    (102) conditional -> WHILE L_PAREN while_starts hyper_exp cond R_PAREN . DO L_BRACKET stmnt R_BRACKET while_do_over
+
+    DO              shift and go to state 250
+
+
+state 248
+
+    (105) non_conditional -> FROM from_to_assignment TO from_to_limit from_to_cond DO . L_BRACKET stmnt R_BRACKET from_to_over
+
+    L_BRACKET       shift and go to state 251
+
+
+state 249
+
+    (94) decision -> IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET . stmnt R_BRACKET else_block if_over
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    stmnt                          shift and go to state 252
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    print                          shift and go to state 56
+    decision                       shift and go to state 57
+    loop                           shift and go to state 58
+    call                           shift and go to state 59
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 250
+
+    (102) conditional -> WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO . L_BRACKET stmnt R_BRACKET while_do_over
+
+    L_BRACKET       shift and go to state 253
+
+
+state 251
+
+    (105) non_conditional -> FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET . stmnt R_BRACKET from_to_over
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    stmnt                          shift and go to state 254
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    print                          shift and go to state 56
+    decision                       shift and go to state 57
+    loop                           shift and go to state 58
+    call                           shift and go to state 59
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 252
+
+    (94) decision -> IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt . R_BRACKET else_block if_over
+
+    R_BRACKET       shift and go to state 255
+
+
+state 253
+
+    (102) conditional -> WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET . stmnt R_BRACKET while_do_over
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    stmnt                          shift and go to state 256
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    print                          shift and go to state 56
+    decision                       shift and go to state 57
+    loop                           shift and go to state 58
+    call                           shift and go to state 59
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 254
+
+    (105) non_conditional -> FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt . R_BRACKET from_to_over
+
+    R_BRACKET       shift and go to state 257
+
+
+state 255
+
+    (94) decision -> IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET . else_block if_over
+    (96) else_block -> . ELSE else_starts L_BRACKET stmnt R_BRACKET
+    (97) else_block -> . empty
+    (134) empty -> .
+
+    ELSE            shift and go to state 259
+    SEMICOLON       reduce using rule 134 (empty -> .)
+
+    else_block                     shift and go to state 258
+    empty                          shift and go to state 260
+
+state 256
+
+    (102) conditional -> WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt . R_BRACKET while_do_over
+
+    R_BRACKET       shift and go to state 261
+
+
+state 257
+
+    (105) non_conditional -> FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET . from_to_over
+    (109) from_to_over -> .
+
+    SEMICOLON       reduce using rule 109 (from_to_over -> .)
+
+    from_to_over                   shift and go to state 262
+
+state 258
+
+    (94) decision -> IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block . if_over
+    (99) if_over -> .
+
+    SEMICOLON       reduce using rule 99 (if_over -> .)
+
+    if_over                        shift and go to state 263
+
+state 259
+
+    (96) else_block -> ELSE . else_starts L_BRACKET stmnt R_BRACKET
+    (98) else_starts -> .
+
+    L_BRACKET       reduce using rule 98 (else_starts -> .)
+
+    else_starts                    shift and go to state 264
+
+state 260
+
+    (97) else_block -> empty .
+
+    SEMICOLON       reduce using rule 97 (else_block -> empty .)
+
+
+state 261
+
+    (102) conditional -> WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET . while_do_over
+    (104) while_do_over -> .
+
+    SEMICOLON       reduce using rule 104 (while_do_over -> .)
+
+    while_do_over                  shift and go to state 265
+
+state 262
+
+    (105) non_conditional -> FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over .
+
+    SEMICOLON       reduce using rule 105 (non_conditional -> FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over .)
+
+
+state 263
+
+    (94) decision -> IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over .
+
+    SEMICOLON       reduce using rule 94 (decision -> IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over .)
+
+
+state 264
+
+    (96) else_block -> ELSE else_starts . L_BRACKET stmnt R_BRACKET
+
+    L_BRACKET       shift and go to state 266
+
+
+state 265
+
+    (102) conditional -> WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over .
+
+    SEMICOLON       reduce using rule 102 (conditional -> WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over .)
+
+
+state 266
+
+    (96) else_block -> ELSE else_starts L_BRACKET . stmnt R_BRACKET
+    (30) stmnt -> . return SEMICOLON
+    (31) stmnt -> . assignment SEMICOLON stmnt
+    (32) stmnt -> . print SEMICOLON stmnt
+    (33) stmnt -> . decision SEMICOLON stmnt
+    (34) stmnt -> . loop SEMICOLON stmnt
+    (35) stmnt -> . call SEMICOLON stmnt
+    (36) stmnt -> . graphics SEMICOLON stmnt
+    (37) stmnt -> . empty
+    (86) return -> . RETURN L_PAREN hyper_exp R_PAREN
+    (38) assignment -> . assignee ASSIGN hyper_exp
+    (87) print -> . PRINT L_PAREN to_print R_PAREN
+    (94) decision -> . IF L_PAREN hyper_exp cond R_PAREN THEN L_BRACKET stmnt R_BRACKET else_block if_over
+    (100) loop -> . conditional
+    (101) loop -> . non_conditional
+    (78) call -> . call_starts L_PAREN args R_PAREN
+    (110) graphics -> . line
+    (111) graphics -> . dot
+    (112) graphics -> . circle
+    (113) graphics -> . arc
+    (114) graphics -> . penup
+    (115) graphics -> . pendown
+    (116) graphics -> . color
+    (117) graphics -> . size
+    (118) graphics -> . reset
+    (119) graphics -> . left
+    (120) graphics -> . right
+    (134) empty -> .
+    (39) assignee -> . ID atom_id var_dim
+    (102) conditional -> . WHILE L_PAREN while_starts hyper_exp cond R_PAREN DO L_BRACKET stmnt R_BRACKET while_do_over
+    (105) non_conditional -> . FROM from_to_assignment TO from_to_limit from_to_cond DO L_BRACKET stmnt R_BRACKET from_to_over
+    (79) call_starts -> . ID
+    (121) line -> . LINE L_PAREN exp R_PAREN
+    (122) dot -> . DOT L_PAREN exp R_PAREN
+    (123) circle -> . CIRCLE L_PAREN exp R_PAREN
+    (124) arc -> . ARC L_PAREN exp R_PAREN
+    (125) penup -> . PENUP L_PAREN R_PAREN
+    (126) pendown -> . PENDOWN L_PAREN R_PAREN
+    (127) color -> . COLOR L_PAREN CT_STRING R_PAREN
+    (128) size -> . SIZE L_PAREN exp R_PAREN
+    (129) reset -> . RESET L_PAREN R_PAREN
+    (130) left -> . LEFT L_PAREN exp R_PAREN
+    (131) right -> . RIGHT L_PAREN exp R_PAREN
+
+    RETURN          shift and go to state 62
+    PRINT           shift and go to state 64
+    IF              shift and go to state 65
+    R_BRACKET       reduce using rule 134 (empty -> .)
+    ID              shift and go to state 80
+    WHILE           shift and go to state 81
+    FROM            shift and go to state 82
+    LINE            shift and go to state 83
+    DOT             shift and go to state 84
+    CIRCLE          shift and go to state 85
+    ARC             shift and go to state 86
+    PENUP           shift and go to state 87
+    PENDOWN         shift and go to state 88
+    COLOR           shift and go to state 89
+    SIZE            shift and go to state 90
+    RESET           shift and go to state 91
+    LEFT            shift and go to state 92
+    RIGHT           shift and go to state 93
+
+    stmnt                          shift and go to state 267
+    return                         shift and go to state 54
+    assignment                     shift and go to state 55
+    print                          shift and go to state 56
+    decision                       shift and go to state 57
+    loop                           shift and go to state 58
+    call                           shift and go to state 59
+    graphics                       shift and go to state 60
+    empty                          shift and go to state 61
+    assignee                       shift and go to state 63
+    conditional                    shift and go to state 66
+    non_conditional                shift and go to state 67
+    call_starts                    shift and go to state 68
+    line                           shift and go to state 69
+    dot                            shift and go to state 70
+    circle                         shift and go to state 71
+    arc                            shift and go to state 72
+    penup                          shift and go to state 73
+    pendown                        shift and go to state 74
+    color                          shift and go to state 75
+    size                           shift and go to state 76
+    reset                          shift and go to state 77
+    left                           shift and go to state 78
+    right                          shift and go to state 79
+
+state 267
+
+    (96) else_block -> ELSE else_starts L_BRACKET stmnt . R_BRACKET
+
+    R_BRACKET       shift and go to state 268
+
+
+state 268
+
+    (96) else_block -> ELSE else_starts L_BRACKET stmnt R_BRACKET .
+
+    SEMICOLON       reduce using rule 96 (else_block -> ELSE else_starts L_BRACKET stmnt R_BRACKET .)
+
